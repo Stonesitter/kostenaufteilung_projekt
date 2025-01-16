@@ -1,0 +1,125 @@
+# erstes Beispiel um notwendigkeit der Funktion zu verstehen
+
+
+# erstellen der participants names
+participants <- c("manu", "kira", "jami", "almut")
+
+# Funktion erstellen die eine Matrix/Dataframe erstellt für alle Participants
+# die dabei sind. 
+
+# Welche Bedingungen braucht es?
+# 1. Muss GesamtKosten und einzelne Ausgaben einer Person darstellen
+# 2. Muss angeben welche MitParticipants bei einzelnen Kosten dabei waren
+#
+# manu Beispiel
+
+temp.name <- participants
+
+
+# erstellen der ausgaben list
+manu.ausgabe <- list(list(86.92, c(TRUE, TRUE, TRUE, TRUE)))
+kira.ausgabe <- list(list(27.50, c(TRUE, TRUE, TRUE, FALSE)),
+                  list(47.50, c(TRUE, TRUE, TRUE, FALSE)))
+jami.ausgabe <- list(list(25, c(TRUE, TRUE, TRUE, FALSE)))
+
+
+
+######## Ideen
+# 1. eine get.participants() funktion die mal die namen der Participants abfragt
+
+# 2. eine neuer.eintrag() funktion. die abfragt für wen die ausgabe ist, wie
+# hoch sie war und für wen alle gezahlt wurde. bevor ich das tue wäre aber noch
+# das endformat interessant, die Liste scheint momentan ungut
+
+
+
+
+# zu.zahlen.matrix erstellen
+matrix <- matrix(ncol = length(participants))
+matrix[, ] <- 0
+colnames(matrix) <- participants
+matrix
+
+
+# einzelne wertebestimmen
+zahlen <- sapply(kira.ausgabe, "[[", 1)
+sum(zahlen)
+
+anz <- sapply(kira.ausgabe, "[[", 2)
+teil.factor <- colSums(anz)
+end.wert <- zahlen / teil.factor
+teil.factor <- sum(kira.ausgabe[[1]][[2]])
+zahlen
+
+
+
+
+x <- vector(end.wert * kira.ausgabe[[1]][[2]])
+temp.m <- t(anz)
+temp.m
+colnames(temp.m) <- participants
+rownames(temp.m) <- zahlen
+temp.m temp.m * end.wert
+
+
+## algemein formulieren
+
+# hilfsfunktion die aus den einzelnen ausgaben einer person eine pers.matrix
+# erstellt
+
+pers.m <- function(name.ausgabe) {
+    zahlen <- sapply(name.ausgabe, "[[", 1)
+
+    anz <- sapply(name.ausgabe, "[[", 2)
+    teil.factor <- colSums(anz)
+    end.wert <- zahlen / teil.factor
+    temp.m <- t(anz)
+    colnames(temp.m) <- participants
+    rownames(temp.m) <- zahlen
+    temp.m <- temp.m * end.wert
+    return(temp.m)
+}
+
+# scan funktion die die namen der participants erstellt
+
+get.participants <- function() {
+    cat("Bitte uebergebe alle Teilnehmer.\n Wenn du fertig bist uebergebe ein leeres Objekt\n")
+    participants <- character(0)
+    participants <- scan(what = character())
+    return(participants)
+}
+
+initial.setup <- function() {
+    cat("Bitte uebergebe alle Teilnehmer. Wenn du fertig bist uebergebe ein leeres Objekt\n")
+    participants <- scan(what = "")
+
+    for (i in 1:length(participants))
+        cat(paste("Beginnen wir mit den Ausgaben von ", participants[i], "\n"
+                  "Welche Ausgaben hat diese Person")
+    
+}
+
+
+get.participants <- function() {
+    cat("Bitte uebergebe alle Teilnehmer. Wenn du fertig bist uebergebe ein leeres Objekt\n")
+    
+    # Erstelle einen leeren Vektor für Teilnehmer
+    participants <- character()
+    
+    # Schleife zur Eingabe
+    while(TRUE) {
+        input <- scan(what = character(), nmax = 1, quiet = TRUE)  # Lese eine Eingabe
+        if(length(input) == 0 || input == "") {  # Wenn die Eingabe leer ist
+            break  # Beende die Schleife
+        }
+        participants <- c(participants, input)  # Füge den Teilnehmer zur Liste hinzu
+    }
+    
+    return(participants)
+}
+
+# Testen der Funktion
+participants <- get.participants()
+print(participants)
+
+

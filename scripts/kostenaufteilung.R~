@@ -1,0 +1,10 @@
+# Dieses Script soll eine Funktion erstellen die Kosten auf Mitglieder einer
+# Gruppe fair aufteilt wie in geläufigen Apps wie Splitwise
+
+kostenaufteilung.R <- function() {
+
+
+
+
+
+}
